@@ -9,7 +9,8 @@ import 'package:route_architect_example/main.dart';
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  testWidgets('app launches and shows login or home screen', (WidgetTester tester) async {
+  testWidgets('app launches and shows login or home screen',
+      (WidgetTester tester) async {
     await tester.pumpWidget(const RouteArchitectExampleApp());
     await tester.pumpAndSettle();
 

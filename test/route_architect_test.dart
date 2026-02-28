@@ -20,7 +20,8 @@ class _BlockGuard extends RouteGuard {
   const _BlockGuard(this.redirectTo);
 
   @override
-  FutureOr<String?> redirect(BuildContext context, GoRouterState state) => redirectTo;
+  FutureOr<String?> redirect(BuildContext context, GoRouterState state) =>
+      redirectTo;
 }
 
 class _AsyncGuard extends RouteGuard {

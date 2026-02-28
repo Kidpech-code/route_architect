@@ -18,7 +18,8 @@ class RoleGuard extends RouteGuard {
 
   @override
   Future<String?> redirect(BuildContext context, GoRouterState state) async {
-    final isAdminRoute = _adminRoutes.any((route) => state.matchedLocation.startsWith(route));
+    final isAdminRoute =
+        _adminRoutes.any((route) => state.matchedLocation.startsWith(route));
 
     if (!isAdminRoute) return null; // Not our concern.
 

@@ -16,25 +16,25 @@ boilerplate.
 
 ## Features
 
-| Feature | Description |
-|---|---|
-| **Async Guard Pipeline** | Chain-of-Responsibility guards (`FutureOr<String?>`) — authenticate, role-check, gate features, all in one pipeline. |
-| **Deep-Link Safety** | Broken deep links are intercepted and silently redirected or shown a polished built-in 404 screen. |
-| **EnterpriseBottomNav** | Plug-and-play `StatefulShellRoute` shell with **double-tap-to-root** out of the box. |
-| **Analytics Observers** | Abstract `RouteAnalyticsObserver` — wire Firebase, Amplitude, Sentry, or any backend. |
-| **State-Management Bridge** | `ListenableNotifier` mixin + `StreamListenable` class — connect Riverpod, Bloc, MobX, etc. to the router's refresh pipeline, completely agnostic. |
-| **Type-Safe Navigation Extensions** | `context.architectPush<T>` / `context.architectPop<T>` — compile-time enforced return types across screens. |
-| **Zero Native Code** | 100% pure Dart. Works on every platform Flutter supports. |
+| Feature                             | Description                                                                                                                                       |
+| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Async Guard Pipeline**            | Chain-of-Responsibility guards (`FutureOr<String?>`) — authenticate, role-check, gate features, all in one pipeline.                              |
+| **Deep-Link Safety**                | Broken deep links are intercepted and silently redirected or shown a polished built-in 404 screen.                                                |
+| **EnterpriseBottomNav**             | Plug-and-play `StatefulShellRoute` shell with **double-tap-to-root** out of the box.                                                              |
+| **Analytics Observers**             | Abstract `RouteAnalyticsObserver` — wire Firebase, Amplitude, Sentry, or any backend.                                                             |
+| **State-Management Bridge**         | `ListenableNotifier` mixin + `StreamListenable` class — connect Riverpod, Bloc, MobX, etc. to the router's refresh pipeline, completely agnostic. |
+| **Type-Safe Navigation Extensions** | `context.architectPush<T>` / `context.architectPop<T>` — compile-time enforced return types across screens.                                       |
+| **Zero Native Code**                | 100% pure Dart. Works on every platform Flutter supports.                                                                                         |
 
 ---
 
 ## Requirements
 
-| Dependency | Version |
-|---|---|
-| Flutter | ≥ 3.22.0 |
-| Dart SDK | ≥ 3.4.0 |
-| go_router | ≥ 14.0.0 |
+| Dependency | Version  |
+| ---------- | -------- |
+| Flutter    | ≥ 3.22.0 |
+| Dart SDK   | ≥ 3.4.0  |
+| go_router  | ≥ 14.0.0 |
 
 ---
 
@@ -276,20 +276,20 @@ A full working example is in the [`example/`](example/) directory, including:
 
 ## API Reference
 
-| Symbol | Description |
-|---|---|
-| `RouteArchitect.create(...)` | Static factory for a configured `GoRouter`. |
-| `RouteGuard` | Abstract base class for a single guard step. |
-| `GuardPipeline.run(...)` | Executes guards in order (used internally). |
-| `RouteAnalyticsObserver` | Abstract `NavigatorObserver` for analytics. |
-| `DebugRouteObserver` | Dev-mode console-logging observer. |
-| `EnterpriseBottomNav` | Bottom-nav widget for `StatefulShellRoute`. |
-| `NavigationItem` | Tab descriptor (label, icon, activeIcon). |
-| `ShellBranchItem` | Tab descriptor + branch routes combined. |
-| `EnterpriseShell.buildRoute(...)` | Zero-boilerplate `StatefulShellRoute` builder. |
-| `ListenableNotifier` | Mixin to bridge any state manager to `Listenable`. |
-| `StreamListenable` | Converts a `Stream` into a `Listenable`. |
-| `RouteArchitectExtensions` | `architectPush<T>` / `architectPop<T>` on `BuildContext`. |
+| Symbol                            | Description                                               |
+| --------------------------------- | --------------------------------------------------------- |
+| `RouteArchitect.create(...)`      | Static factory for a configured `GoRouter`.               |
+| `RouteGuard`                      | Abstract base class for a single guard step.              |
+| `GuardPipeline.run(...)`          | Executes guards in order (used internally).               |
+| `RouteAnalyticsObserver`          | Abstract `NavigatorObserver` for analytics.               |
+| `DebugRouteObserver`              | Dev-mode console-logging observer.                        |
+| `EnterpriseBottomNav`             | Bottom-nav widget for `StatefulShellRoute`.               |
+| `NavigationItem`                  | Tab descriptor (label, icon, activeIcon).                 |
+| `ShellBranchItem`                 | Tab descriptor + branch routes combined.                  |
+| `EnterpriseShell.buildRoute(...)` | Zero-boilerplate `StatefulShellRoute` builder.            |
+| `ListenableNotifier`              | Mixin to bridge any state manager to `Listenable`.        |
+| `StreamListenable`                | Converts a `Stream` into a `Listenable`.                  |
+| `RouteArchitectExtensions`        | `architectPush<T>` / `architectPop<T>` on `BuildContext`. |
 
 ---
 

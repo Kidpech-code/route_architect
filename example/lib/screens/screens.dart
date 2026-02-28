@@ -13,7 +13,11 @@ import '../auth/auth_notifier.dart';
 /// encodes the return type at the call-site so the compiler rejects wrong types.
 @immutable
 class ShippingAddress {
-  const ShippingAddress({required this.label, required this.street, required this.city, required this.postcode});
+  const ShippingAddress(
+      {required this.label,
+      required this.street,
+      required this.city,
+      required this.postcode});
 
   final String label;
   final String street;
@@ -26,10 +30,26 @@ class ShippingAddress {
 
 /// Sample addresses shown in [AddressPickerScreen].
 const _kSampleAddresses = [
-  ShippingAddress(label: 'Home', street: '88 Sukhumvit Rd', city: 'Bangkok', postcode: '10110'),
-  ShippingAddress(label: 'Office', street: '14 Silom Complex', city: 'Bangkok', postcode: '10500'),
-  ShippingAddress(label: 'Warehouse', street: '321 Lat Krabang Industrial,', city: 'Bangkok', postcode: '10520'),
-  ShippingAddress(label: 'Parent\'s House', street: '7 Nimman Rd', city: 'Chiang Mai', postcode: '50200'),
+  ShippingAddress(
+      label: 'Home',
+      street: '88 Sukhumvit Rd',
+      city: 'Bangkok',
+      postcode: '10110'),
+  ShippingAddress(
+      label: 'Office',
+      street: '14 Silom Complex',
+      city: 'Bangkok',
+      postcode: '10500'),
+  ShippingAddress(
+      label: 'Warehouse',
+      street: '321 Lat Krabang Industrial,',
+      city: 'Bangkok',
+      postcode: '10520'),
+  ShippingAddress(
+      label: 'Parent\'s House',
+      street: '7 Nimman Rd',
+      city: 'Chiang Mai',
+      postcode: '50200'),
 ];
 
 // ---------------------------------------------------------------------------
@@ -55,7 +75,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> _loginAsAdmin() async {
     setState(() => _loading = true);
-    await widget.authNotifier.login(email: 'admin@example.com', role: UserRole.admin);
+    await widget.authNotifier
+        .login(email: 'admin@example.com', role: UserRole.admin);
     if (mounted) setState(() => _loading = false);
   }
 
@@ -69,9 +90,13 @@ class _LoginScreenState extends State<LoginScreen> {
             : Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  ElevatedButton(onPressed: _loginAsMember, child: const Text('Login as Member')),
+                  ElevatedButton(
+                      onPressed: _loginAsMember,
+                      child: const Text('Login as Member')),
                   const SizedBox(height: 12),
-                  ElevatedButton(onPressed: _loginAsAdmin, child: const Text('Login as Admin')),
+                  ElevatedButton(
+                      onPressed: _loginAsAdmin,
+                      child: const Text('Login as Admin')),
                 ],
               ),
       ),
@@ -100,7 +125,8 @@ class _HomeScreenState extends State<HomeScreen> {
   /// Uses `context.architectPush<ShippingAddress>` so the compiler enforces
   /// that whatever comes back is exactly a [ShippingAddress] – no cast needed.
   Future<void> _pickAddress() async {
-    final result = await context.architectPush<ShippingAddress>('/home/address-picker');
+    final result =
+        await context.architectPush<ShippingAddress>('/home/address-picker');
     // result is null when the user presses the system back button.
     if (result != null && mounted) {
       setState(() => _selectedAddress = result);
@@ -113,13 +139,19 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home'),
-        actions: [IconButton(icon: const Icon(Icons.logout), onPressed: widget.authNotifier.logout, tooltip: 'Logout')],
+        actions: [
+          IconButton(
+              icon: const Icon(Icons.logout),
+              onPressed: widget.authNotifier.logout,
+              tooltip: 'Logout')
+        ],
       ),
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('Welcome, ${user?.displayName ?? 'Guest'}!', style: Theme.of(context).textTheme.headlineSmall),
+            Text('Welcome, ${user?.displayName ?? 'Guest'}!',
+                style: Theme.of(context).textTheme.headlineSmall),
             Text('Role: ${user?.role.name ?? 'none'}'),
             const SizedBox(height: 24),
 
@@ -131,10 +163,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Text('Push & Await Typed Return', style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
+                    Text('Push & Await Typed Return',
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleMedium
+                            ?.copyWith(fontWeight: FontWeight.bold)),
                     const SizedBox(height: 8),
                     Text(
-                      _selectedAddress != null ? '📦  ${_selectedAddress.toString()}' : 'No address selected yet.',
+                      _selectedAddress != null
+                          ? '📦  ${_selectedAddress.toString()}'
+                          : 'No address selected yet.',
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     const SizedBox(height: 12),
@@ -153,11 +191,18 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
 
             const SizedBox(height: 16),
-            ElevatedButton(onPressed: () => context.go('/home/detail/42'), child: const Text('Open Detail (Deep Nest)')),
+            ElevatedButton(
+                onPressed: () => context.go('/home/detail/42'),
+                child: const Text('Open Detail (Deep Nest)')),
             const SizedBox(height: 8),
-            if (user?.isAdmin ?? false) ElevatedButton(onPressed: () => context.go('/admin'), child: const Text('Go to Admin Panel')),
+            if (user?.isAdmin ?? false)
+              ElevatedButton(
+                  onPressed: () => context.go('/admin'),
+                  child: const Text('Go to Admin Panel')),
             const SizedBox(height: 8),
-            OutlinedButton(onPressed: () => context.go('/admin'), child: const Text('Try Admin (non-admin redirect test)')),
+            OutlinedButton(
+                onPressed: () => context.go('/admin'),
+                child: const Text('Try Admin (non-admin redirect test)')),
           ],
         ),
       ),
@@ -233,7 +278,10 @@ class ProfileScreen extends StatelessWidget {
             Text(user?.email ?? 'Not logged in'),
             Text('Role: ${user?.role.name ?? 'none'}'),
             const SizedBox(height: 16),
-            ElevatedButton.icon(icon: const Icon(Icons.logout), label: const Text('Logout'), onPressed: authNotifier.logout),
+            ElevatedButton.icon(
+                icon: const Icon(Icons.logout),
+                label: const Text('Logout'),
+                onPressed: authNotifier.logout),
           ],
         ),
       ),
@@ -251,7 +299,9 @@ class AdminScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Admin Panel'), backgroundColor: Colors.red.shade700),
+      appBar: AppBar(
+          title: const Text('Admin Panel'),
+          backgroundColor: Colors.red.shade700),
       body: const Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -294,7 +344,8 @@ class AddressPickerScreen extends StatelessWidget {
           return ListTile(
             leading: const Icon(Icons.location_on_outlined),
             title: Text(address.label),
-            subtitle: Text('${address.street}, ${address.city} ${address.postcode}'),
+            subtitle:
+                Text('${address.street}, ${address.city} ${address.postcode}'),
             trailing: const Icon(Icons.chevron_right),
             onTap: () {
               // ② Screen B pops with a *typed* ShippingAddress.

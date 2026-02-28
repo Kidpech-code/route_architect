@@ -46,10 +46,12 @@ export 'src/route_architect_config.dart' show RouteArchitect;
 export 'src/route_guard.dart' show RouteGuard, GuardPipeline;
 
 // ── Observability ───────────────────────────────────────────────────────────
-export 'src/analytics_observer.dart' show RouteAnalyticsObserver, DebugRouteObserver;
+export 'src/analytics_observer.dart'
+    show RouteAnalyticsObserver, DebugRouteObserver;
 
 // ── Navigation Shell ────────────────────────────────────────────────────────
-export 'src/enterprise_bottom_nav.dart' show EnterpriseBottomNav, NavigationItem, ShellBranchItem, EnterpriseShell;
+export 'src/enterprise_bottom_nav.dart'
+    show EnterpriseBottomNav, NavigationItem, ShellBranchItem, EnterpriseShell;
 
 // ── Context Extensions ──────────────────────────────────────────────────────
 export 'src/route_extensions.dart' show RouteArchitectExtensions;

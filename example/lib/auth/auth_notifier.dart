@@ -13,7 +13,11 @@ enum UserRole { guest, member, admin }
 /// immutability contract are identical.
 @immutable
 class AppUser {
-  const AppUser({required this.id, required this.email, required this.displayName, this.role = UserRole.member});
+  const AppUser(
+      {required this.id,
+      required this.email,
+      required this.displayName,
+      this.role = UserRole.member});
 
   final String id;
   final String email;
@@ -22,8 +26,13 @@ class AppUser {
 
   bool get isAdmin => role == UserRole.admin;
 
-  AppUser copyWith({String? id, String? email, String? displayName, UserRole? role}) {
-    return AppUser(id: id ?? this.id, email: email ?? this.email, displayName: displayName ?? this.displayName, role: role ?? this.role);
+  AppUser copyWith(
+      {String? id, String? email, String? displayName, UserRole? role}) {
+    return AppUser(
+        id: id ?? this.id,
+        email: email ?? this.email,
+        displayName: displayName ?? this.displayName,
+        role: role ?? this.role);
   }
 
   @override
@@ -63,15 +72,23 @@ class AuthNotifier extends ChangeNotifier {
 
   bool get isAuthenticated => _state is Authenticated;
 
-  AppUser? get currentUser => _state is Authenticated ? (_state as Authenticated).user : null;
+  AppUser? get currentUser =>
+      _state is Authenticated ? (_state as Authenticated).user : null;
 
   /// Simulates a successful login.
-  Future<void> login({required String email, String password = 'password', UserRole role = UserRole.member}) async {
+  Future<void> login(
+      {required String email,
+      String password = 'password',
+      UserRole role = UserRole.member}) async {
     // Simulate network delay.
     await Future<void>.delayed(const Duration(milliseconds: 300));
 
     _state = Authenticated(
-      user: AppUser(id: 'usr_${email.hashCode.abs()}', email: email, displayName: email.split('@').first, role: role),
+      user: AppUser(
+          id: 'usr_${email.hashCode.abs()}',
+          email: email,
+          displayName: email.split('@').first,
+          role: role),
     );
     notifyListeners();
   }

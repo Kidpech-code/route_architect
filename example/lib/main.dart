@@ -28,7 +28,8 @@ class RouteArchitectExampleApp extends StatefulWidget {
   const RouteArchitectExampleApp({super.key});
 
   @override
-  State<RouteArchitectExampleApp> createState() => _RouteArchitectExampleAppState();
+  State<RouteArchitectExampleApp> createState() =>
+      _RouteArchitectExampleAppState();
 }
 
 class _RouteArchitectExampleAppState extends State<RouteArchitectExampleApp> {
@@ -82,7 +83,9 @@ class _RouteArchitectExampleAppState extends State<RouteArchitectExampleApp> {
       notifier: _authNotifier,
       child: MaterialApp.router(
         title: 'Route Architect Demo',
-        theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo), useMaterial3: true),
+        theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
+            useMaterial3: true),
         routerConfig: _router,
       ),
     );

@@ -18,7 +18,8 @@ class AuthGuard extends RouteGuard {
 
   @override
   Future<String?> redirect(BuildContext context, GoRouterState state) async {
-    final isPublic = _publicRoutes.any((route) => state.matchedLocation.startsWith(route));
+    final isPublic =
+        _publicRoutes.any((route) => state.matchedLocation.startsWith(route));
 
     if (_auth.isAuthenticated) {
       // If authenticated user hits login, send them home.

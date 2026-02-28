@@ -17,10 +17,13 @@ import '../screens/screens.dart';
 /// Provides [AuthNotifier] to the widget tree via Flutter's built-in
 /// [InheritedNotifier] – no Riverpod, Provider, or GetIt required.
 class InheritedAuthNotifier extends InheritedNotifier<AuthNotifier> {
-  const InheritedAuthNotifier({super.key, required AuthNotifier notifier, required super.child}) : super(notifier: notifier);
+  const InheritedAuthNotifier(
+      {super.key, required AuthNotifier notifier, required super.child})
+      : super(notifier: notifier);
 
   static AuthNotifier of(BuildContext context) {
-    final w = context.dependOnInheritedWidgetOfExactType<InheritedAuthNotifier>();
+    final w =
+        context.dependOnInheritedWidgetOfExactType<InheritedAuthNotifier>();
     assert(w != null, 'No InheritedAuthNotifier found in widget tree.');
     return w!.notifier!;
   }
@@ -44,75 +47,83 @@ class InheritedAuthNotifier extends InheritedNotifier<AuthNotifier> {
 ///   /profile          – Profile tab
 /// ```
 List<RouteBase> appRoutes(AuthNotifier auth) => [
-  // ── Public routes ───────────────────────────────────────────────────
-  GoRoute(
-    path: '/login',
-    builder: (context, state) => LoginScreen(authNotifier: auth),
-  ),
+      // ── Public routes ───────────────────────────────────────────────────
+      GoRoute(
+        path: '/login',
+        builder: (context, state) => LoginScreen(authNotifier: auth),
+      ),
 
-  // ── Admin route (role-guarded by RoleGuard in the pipeline) ─────────
-  GoRoute(path: '/admin', builder: (context, state) => const AdminScreen()),
+      // ── Admin route (role-guarded by RoleGuard in the pipeline) ─────────
+      GoRoute(path: '/admin', builder: (context, state) => const AdminScreen()),
 
-  // ── Bottom navigation shell (fully declarative via EnterpriseShell) ──
-  //
-  // Before this API, this required ~30 lines of StatefulShellRoute +
-  // StatefulShellBranch + EnterpriseBottomNav boilerplate.
-  // Now: one call, one list, zero duplication.
-  EnterpriseShell.buildRoute(
-    // ① Demo badge: red dot on the Search tab.
-    badgeBuilder: (index) => index == 1
-        ? Container(
-            width: 8,
-            height: 8,
-            decoration: const BoxDecoration(color: Colors.red, shape: BoxShape.circle),
-          )
-        : null,
+      // ── Bottom navigation shell (fully declarative via EnterpriseShell) ──
+      //
+      // Before this API, this required ~30 lines of StatefulShellRoute +
+      // StatefulShellBranch + EnterpriseBottomNav boilerplate.
+      // Now: one call, one list, zero duplication.
+      EnterpriseShell.buildRoute(
+        // ① Demo badge: red dot on the Search tab.
+        badgeBuilder: (index) => index == 1
+            ? Container(
+                width: 8,
+                height: 8,
+                decoration: const BoxDecoration(
+                    color: Colors.red, shape: BoxShape.circle),
+              )
+            : null,
 
-    items: [
-      // ── Home branch ────────────────────────────────────────────────
-      ShellBranchItem(
-        label: 'Home',
-        icon: Icons.home_outlined,
-        activeIcon: Icons.home,
-        routes: [
-          GoRoute(
-            path: '/home',
-            builder: (context, state) => HomeScreen(authNotifier: auth),
+        items: [
+          // ── Home branch ────────────────────────────────────────────────
+          ShellBranchItem(
+            label: 'Home',
+            icon: Icons.home_outlined,
+            activeIcon: Icons.home,
             routes: [
-              // Deep-nested detail route.
               GoRoute(
-                path: 'detail/:id',
-                builder: (context, state) => DetailScreen(id: state.pathParameters['id']!),
-              ),
+                path: '/home',
+                builder: (context, state) => HomeScreen(authNotifier: auth),
+                routes: [
+                  // Deep-nested detail route.
+                  GoRoute(
+                    path: 'detail/:id',
+                    builder: (context, state) =>
+                        DetailScreen(id: state.pathParameters['id']!),
+                  ),
 
-              // ② Push & Custom Pop demo: Screen A → Screen B → returns
-              //   a typed ShippingAddress back to Screen A.
-              GoRoute(path: 'address-picker', builder: (context, state) => const AddressPickerScreen()),
+                  // ② Push & Custom Pop demo: Screen A → Screen B → returns
+                  //   a typed ShippingAddress back to Screen A.
+                  GoRoute(
+                      path: 'address-picker',
+                      builder: (context, state) => const AddressPickerScreen()),
+                ],
+              ),
+            ],
+          ),
+
+          // ── Search branch ───────────────────────────────────────────────
+          ShellBranchItem(
+            label: 'Search',
+            icon: Icons.search_outlined,
+            activeIcon: Icons.search,
+            routes: [
+              GoRoute(
+                  path: '/search',
+                  builder: (context, state) => const SearchScreen())
+            ],
+          ),
+
+          // ── Profile branch ──────────────────────────────────────────────
+          ShellBranchItem(
+            label: 'Profile',
+            icon: Icons.person_outline,
+            activeIcon: Icons.person,
+            routes: [
+              GoRoute(
+                path: '/profile',
+                builder: (context, state) => ProfileScreen(authNotifier: auth),
+              ),
             ],
           ),
         ],
       ),
-
-      // ── Search branch ───────────────────────────────────────────────
-      ShellBranchItem(
-        label: 'Search',
-        icon: Icons.search_outlined,
-        activeIcon: Icons.search,
-        routes: [GoRoute(path: '/search', builder: (context, state) => const SearchScreen())],
-      ),
-
-      // ── Profile branch ──────────────────────────────────────────────
-      ShellBranchItem(
-        label: 'Profile',
-        icon: Icons.person_outline,
-        activeIcon: Icons.person,
-        routes: [
-          GoRoute(
-            path: '/profile',
-            builder: (context, state) => ProfileScreen(authNotifier: auth),
-          ),
-        ],
-      ),
-    ],
-  ),
-];
+    ];

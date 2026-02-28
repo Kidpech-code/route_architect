@@ -103,12 +103,14 @@ abstract final class RouteArchitect {
     Listenable? refreshListenable,
     String initialLocation = '/',
     String? fallbackLocation,
-    Widget Function(BuildContext context, GoRouterState state)? errorScreenBuilder,
+    Widget Function(BuildContext context, GoRouterState state)?
+        errorScreenBuilder,
     bool debugLogDiagnostics = false,
     String? restorationScopeId,
     int redirectLimit = 20,
   }) {
-    assert(routes.isNotEmpty, 'RouteArchitect: You must provide at least one route.');
+    assert(routes.isNotEmpty,
+        'RouteArchitect: You must provide at least one route.');
 
     // go_router enforces: only ONE of onException, errorBuilder, or
     // errorPageBuilder may be provided. We branch based on whether a
@@ -127,7 +129,9 @@ abstract final class RouteArchitect {
         debugLogDiagnostics: debugLogDiagnostics,
         restorationScopeId: restorationScopeId,
         redirectLimit: redirectLimit,
-        redirect: guards.isEmpty ? null : (context, state) => GuardPipeline.run(guards, context, state),
+        redirect: guards.isEmpty
+            ? null
+            : (context, state) => GuardPipeline.run(guards, context, state),
         onException: (context, state, router) {
           for (final observer in observers) {
             observer.onRouteError(state.uri.toString(), state.error);
@@ -147,7 +151,9 @@ abstract final class RouteArchitect {
       debugLogDiagnostics: debugLogDiagnostics,
       restorationScopeId: restorationScopeId,
       redirectLimit: redirectLimit,
-      redirect: guards.isEmpty ? null : (context, state) => GuardPipeline.run(guards, context, state),
+      redirect: guards.isEmpty
+          ? null
+          : (context, state) => GuardPipeline.run(guards, context, state),
       errorBuilder: effectiveErrorBuilder,
     );
   }

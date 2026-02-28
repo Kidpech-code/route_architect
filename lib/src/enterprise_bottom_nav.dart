@@ -346,7 +346,8 @@ class EnterpriseBottomNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final effectiveTheme = themeData ?? Theme.of(context).bottomNavigationBarTheme;
+    final effectiveTheme =
+        themeData ?? Theme.of(context).bottomNavigationBarTheme;
 
     return Scaffold(
       body: navigationShell,
@@ -357,8 +358,10 @@ class EnterpriseBottomNav extends StatelessWidget {
           onTap: _onItemTapped,
           backgroundColor: backgroundColor ?? effectiveTheme.backgroundColor,
           elevation: elevation ?? effectiveTheme.elevation ?? 8,
-          selectedItemColor: selectedItemColor ?? effectiveTheme.selectedItemColor,
-          unselectedItemColor: unselectedItemColor ?? effectiveTheme.unselectedItemColor,
+          selectedItemColor:
+              selectedItemColor ?? effectiveTheme.selectedItemColor,
+          unselectedItemColor:
+              unselectedItemColor ?? effectiveTheme.unselectedItemColor,
           showUnselectedLabels: showUnselectedLabels,
           type: type,
           items: List.generate(items.length, (i) {
