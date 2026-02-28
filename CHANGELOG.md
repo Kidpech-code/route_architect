@@ -1,3 +1,8 @@
+## 1.0.1
+
+- Fix: trim `pubspec.yaml` description to satisfy pub.dev's 60-180 character requirement.
+- Fix: broaden `go_router` constraint from `^14.0.0` to `'>=14.0.0 <18.0.0'` to support all current stable versions (14.x – 17.x).
+
 ## 1.0.0
 
 Initial public release.

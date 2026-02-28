@@ -42,7 +42,7 @@ boilerplate.
 
 ```yaml
 dependencies:
-  route_architect: ^1.0.0
+  route_architect: ^1.0.1
 ```
 
 ```bash

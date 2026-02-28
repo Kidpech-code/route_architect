@@ -1,10 +1,6 @@
 name: route_architect
-description: >
-  Enterprise-grade Flutter routing built on go_router.
-  Provides an async guard pipeline, deep-link safety, stateful shell with
-  double-tap-to-root, analytics observers, and a zero-friction declarative API.
-  100% pure Dart – no native code.
-version: 1.0.0
+description: "Enterprise-grade Flutter routing on go_router. Async guard pipeline, deep-link safety, bottom-nav shell, analytics observers, and declarative API."
+version: 1.0.1
 homepage: https://github.com/Kidpech-code/route_architect
 repository: https://github.com/Kidpech-code/route_architect
 issue_tracker: https://github.com/Kidpech-code/route_architect/issues
@@ -23,7 +19,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  go_router: ^14.0.0
+  go_router: ">=14.0.0 <18.0.0"
 
 dev_dependencies:
   flutter_test:
