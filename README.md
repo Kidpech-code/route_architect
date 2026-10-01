@@ -41,7 +41,7 @@ analytics observers, and state-management bridges.
 
 ```yaml
 dependencies:
-  route_architect: ^1.0.1
+  route_architect: ^1.0.2
 ```
 
 ```bash
