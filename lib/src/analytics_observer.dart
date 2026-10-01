@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
 // ---------------------------------------------------------------------------
@@ -106,19 +107,26 @@ class DebugRouteObserver extends RouteAnalyticsObserver {
 
   @override
   void onScreenView(String? screenName) {
-    // ignore: avoid_print
-    print('[RouteArchitect] ▶ SCREEN VIEW : $screenName');
+    if (kDebugMode) {
+      // ignore: avoid_print
+      print('[RouteArchitect] ▶ SCREEN VIEW : $screenName');
+    }
   }
 
   @override
   void onScreenPop(String? screenName) {
-    // ignore: avoid_print
-    print('[RouteArchitect] ◀ SCREEN POP  : $screenName');
+    if (kDebugMode) {
+      // ignore: avoid_print
+      print('[RouteArchitect] ◀ SCREEN POP  : $screenName');
+    }
   }
 
   @override
   void onRouteError(String? attemptedPath, Object? error) {
-    // ignore: avoid_print
-    print('[RouteArchitect] ✖ ROUTE ERROR : path=$attemptedPath error=$error');
+    if (kDebugMode) {
+      // ignore: avoid_print
+      print(
+          '[RouteArchitect] ✖ ROUTE ERROR : path=$attemptedPath error=$error');
+    }
   }
 }

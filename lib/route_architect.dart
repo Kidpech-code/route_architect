@@ -32,7 +32,7 @@
 /// | [GuardPipeline] | Chain-of-Responsibility executor for guards. |
 /// | [RouteAnalyticsObserver] | Abstract navigator observer for analytics. |
 /// | [DebugRouteObserver] | Dev-mode console logger. |
-/// | [EnterpriseBottomNav] | Plug-and-play bottom nav shell with double-tap-to-root. |
+/// | [EnterpriseBottomNav] | Bottom nav shell that returns to root when the active tab is tapped. |
 /// | [NavigationItem] | Tab descriptor for `EnterpriseBottomNav`. |
 /// | [ListenableNotifier] | Mixin to bridge any state management to `Listenable`. |
 /// | [StreamListenable] | Converts a `Stream` into a `Listenable`. |

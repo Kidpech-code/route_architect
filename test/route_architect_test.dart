@@ -81,14 +81,18 @@ void main() {
       notifier.disposeRouteListenable();
     });
 
-    test('accepts fallbackLocation for deep link safety', () {
+    testWidgets('unknown routes return to fallbackLocation', (tester) async {
       final router = RouteArchitect.create(
         routes: [
-          GoRoute(path: '/', builder: (_, __) => const SizedBox()),
+          GoRoute(path: '/', builder: (_, __) => const Text('Home')),
         ],
         fallbackLocation: '/',
       );
-      expect(router, isA<GoRouter>());
+
+      await tester.pumpWidget(MaterialApp.router(routerConfig: router));
+      router.go('/missing');
+      await tester.pumpAndSettle();
+      expect(find.text('Home'), findsOneWidget);
       router.dispose();
     });
 
@@ -178,6 +182,26 @@ void main() {
 
       // Should show the built-in 404 page.
       expect(find.text('404'), findsOneWidget);
+      router.dispose();
+    });
+
+    testWidgets('error page returns to the configured initial location',
+        (tester) async {
+      final router = RouteArchitect.create(
+        routes: [
+          GoRoute(path: '/home', builder: (_, __) => const Text('Home')),
+        ],
+        initialLocation: '/home',
+      );
+
+      await tester.pumpWidget(MaterialApp.router(routerConfig: router));
+      router.go('/missing');
+      await tester.pumpAndSettle();
+      expect(find.text('404'), findsOneWidget);
+
+      await tester.tap(find.text('Go to Start'));
+      await tester.pumpAndSettle();
+      expect(find.text('Home'), findsOneWidget);
       router.dispose();
     });
   });

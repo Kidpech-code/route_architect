@@ -122,8 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   /// Pushes [AddressPickerScreen] and awaits the user's selection.
   ///
-  /// Uses `context.architectPush<ShippingAddress>` so the compiler enforces
-  /// that whatever comes back is exactly a [ShippingAddress] – no cast needed.
+  /// Uses `context.architectPush<ShippingAddress>` for a typed result.
   Future<void> _pickAddress() async {
     final result =
         await context.architectPush<ShippingAddress>('/home/address-picker');
@@ -181,8 +180,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       label: const Text('Pick Shipping Address'),
                       // ① Screen A pushes Screen B and awaits a typed result.
                       //   context.architectPush<ShippingAddress>() returns
-                      //   Future<ShippingAddress?> – the compiler rejects any
-                      //   other type at Screen B's pop call-site.
+                      //   Future<ShippingAddress?>. Screen B must pop the
+                      //   same type.
                       onPressed: _pickAddress,
                     ),
                   ],
@@ -325,9 +324,7 @@ class AdminScreen extends StatelessWidget {
 /// When the user taps one, calls `context.architectPop<ShippingAddress>(address)`
 /// to return the typed value to the previous screen **without any cast**.
 ///
-/// The type parameter at the pop call-site is enforced by the compiler:
-/// `context.architectPop(address)` only compiles if `address` is a
-/// [ShippingAddress] – exactly what Screen A is awaiting.
+/// Screen A uses the same result type in its push call.
 class AddressPickerScreen extends StatelessWidget {
   const AddressPickerScreen({super.key});
 
@@ -349,9 +346,7 @@ class AddressPickerScreen extends StatelessWidget {
             trailing: const Icon(Icons.chevron_right),
             onTap: () {
               // ② Screen B pops with a *typed* ShippingAddress.
-              //   context.architectPop<ShippingAddress>(address) ensures the
-              //   compiler validates the return type. The Future<ShippingAddress?>
-              //   at Screen A resolves with exactly this object – no cast, no crash.
+              //   Keep this type in sync with Screen A's push call.
               context.architectPop<ShippingAddress>(address);
             },
           );

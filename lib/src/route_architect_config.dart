@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -85,9 +86,8 @@ abstract final class RouteArchitect {
   ///   404 page. If omitted, a polished built-in error page is displayed.
   ///   This is only used when [fallbackLocation] is `null`.
   ///
-  /// - **[observers]** – Analytics observers attached to every nested
-  ///   navigator. Each receives `onScreenView`, `onScreenPop`, and
-  ///   `onRouteError` callbacks.
+  /// - **[observers]** – Analytics observers attached to the root navigator.
+  ///   `onRouteError` is called when [fallbackLocation] handles an error.
   ///
   /// - **[debugLogDiagnostics]** – Enables `go_router`'s verbose logging.
   ///   Defaults to `false`.
@@ -116,7 +116,11 @@ abstract final class RouteArchitect {
     // errorPageBuilder may be provided. We branch based on whether a
     // fallbackLocation was configured.
 
-    final effectiveErrorBuilder = errorScreenBuilder ?? _defaultErrorBuilder;
+    final effectiveErrorBuilder = errorScreenBuilder ??
+        (BuildContext context, GoRouterState state) => _DefaultRouteErrorScreen(
+              error: state.error,
+              initialLocation: initialLocation,
+            );
 
     if (fallbackLocation != null) {
       // ── Fallback-redirect strategy ──────────────────────────────────────
@@ -169,15 +173,12 @@ abstract final class RouteArchitect {
 /// Features:
 /// - Clean, minimal Material Design layout.
 /// - Displays the error message in debug mode for diagnostics.
-/// - "Go to Home" button to recover gracefully.
-Widget _defaultErrorBuilder(BuildContext context, GoRouterState state) {
-  return _DefaultRouteErrorScreen(error: state.error);
-}
-
+/// - "Go to Start" button to recover gracefully.
 class _DefaultRouteErrorScreen extends StatelessWidget {
-  const _DefaultRouteErrorScreen({this.error});
+  const _DefaultRouteErrorScreen({this.error, required this.initialLocation});
 
   final Exception? error;
+  final String initialLocation;
 
   @override
   Widget build(BuildContext context) {
@@ -216,7 +217,7 @@ class _DefaultRouteErrorScreen extends StatelessWidget {
                     color: theme.colorScheme.onSurfaceVariant,
                   ),
                 ),
-                if (error != null) ...[
+                if (kDebugMode && error != null) ...[
                   const SizedBox(height: 12),
                   Text(
                     error.toString(),
@@ -231,8 +232,8 @@ class _DefaultRouteErrorScreen extends StatelessWidget {
                 const SizedBox(height: 32),
                 FilledButton.icon(
                   icon: const Icon(Icons.home_outlined),
-                  label: const Text('Go to Home'),
-                  onPressed: () => context.go('/'),
+                  label: const Text('Go to Start'),
+                  onPressed: () => context.go(initialLocation),
                 ),
               ],
             ),

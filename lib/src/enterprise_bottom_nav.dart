@@ -215,7 +215,7 @@ class NavigationItem {
 /// A production-ready bottom-navigation host for `StatefulShellRoute`.
 ///
 /// ## Features
-/// - **Double-Tap to Root** – tapping the already-active tab pops the entire
+/// - Tapping the already-active tab pops the entire
 ///   branch back to its root route, matching iOS / Android platform
 ///   conventions.
 /// - **Minimal API** – just pass a list of [NavigationItem]s. The widget
@@ -329,12 +329,12 @@ class EnterpriseBottomNav extends StatelessWidget {
 
   // ── Tap Handler ───────────────────────────────────────────────────────────
 
-  /// Handles tab taps with **Double-Tap to Root** logic:
+  /// Handles tab taps:
   /// - **Same tab** → pops the branch to its root (initial location).
   /// - **Different tab** → switches to that branch preserving its state.
   void _onItemTapped(int index) {
     if (index == navigationShell.currentIndex) {
-      // ✨ Double-Tap to Root: pop the entire branch navigator back to its
+      // Pop the entire branch navigator back to its
       // root route. This matches standard iOS/Android behaviour.
       navigationShell.goBranch(index, initialLocation: true);
     } else {

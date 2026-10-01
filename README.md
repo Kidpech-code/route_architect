@@ -8,9 +8,8 @@
 
 `route_architect` wraps `go_router` in a clean, declarative API designed for
 production apps. You get an async guard pipeline, deep-link safety, a
-stateful bottom-nav shell with double-tap-to-root, analytics observers, and
-state-management bridges — all without writing a single line of `go_router`
-boilerplate.
+stateful bottom-nav shell that returns to root when its active tab is tapped,
+analytics observers, and state-management bridges.
 
 ---
 
@@ -20,10 +19,10 @@ boilerplate.
 | ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Async Guard Pipeline**            | Chain-of-Responsibility guards (`FutureOr<String?>`) — authenticate, role-check, gate features, all in one pipeline.                              |
 | **Deep-Link Safety**                | Broken deep links are intercepted and silently redirected or shown a polished built-in 404 screen.                                                |
-| **EnterpriseBottomNav**             | Plug-and-play `StatefulShellRoute` shell with **double-tap-to-root** out of the box.                                                              |
+| **EnterpriseBottomNav**             | Plug-and-play `StatefulShellRoute` shell; tapping the active tab returns to its root.                                                            |
 | **Analytics Observers**             | Abstract `RouteAnalyticsObserver` — wire Firebase, Amplitude, Sentry, or any backend.                                                             |
 | **State-Management Bridge**         | `ListenableNotifier` mixin + `StreamListenable` class — connect Riverpod, Bloc, MobX, etc. to the router's refresh pipeline, completely agnostic. |
-| **Type-Safe Navigation Extensions** | `context.architectPush<T>` / `context.architectPop<T>` — compile-time enforced return types across screens.                                       |
+| **Typed Navigation Extensions**     | `context.architectPush<T>` / `context.architectPop<T>` — typed results when pushing and popping routes.                                         |
 | **Zero Native Code**                | 100% pure Dart. Works on every platform Flutter supports.                                                                                         |
 
 ---
@@ -34,7 +33,7 @@ boilerplate.
 | ---------- | -------- |
 | Flutter    | ≥ 3.22.0 |
 | Dart SDK   | ≥ 3.4.0  |
-| go_router  | ≥ 14.0.0 |
+| go_router  | 14.x–17.x |
 
 ---
 
@@ -57,24 +56,28 @@ flutter pub get
 ## Quick Start
 
 ```dart
+import 'package:flutter/material.dart';
 import 'package:route_architect/route_architect.dart';
 
-final router = RouteArchitect.create(
-  routes: [
-    GoRoute(path: '/',      builder: (_, __) => const HomeScreen()),
-    GoRoute(path: '/login', builder: (_, __) => const LoginScreen()),
-  ],
-  guards: [AuthGuard(authNotifier)],
-  refreshListenable: authNotifier,   // re-runs guards on auth state change
-  initialLocation: '/home',
-  fallbackLocation: '/',             // broken deep links → here
-  observers: [DebugRouteObserver()],
-  debugLogDiagnostics: true,
-);
+void main() {
+  final router = RouteArchitect.create(
+    routes: [
+      GoRoute(
+        path: '/',
+        builder: (_, __) => const Scaffold(
+          body: Center(child: Text('Home')),
+        ),
+      ),
+    ],
+    fallbackLocation: '/', // broken deep links return here
+  );
 
-// In your widget tree:
-MaterialApp.router(routerConfig: router);
+  runApp(MaterialApp.router(routerConfig: router));
+}
 ```
+
+Add guards and `refreshListenable` when your app has authentication; see below
+and the [working example](example/).
 
 ---
 
@@ -91,8 +94,10 @@ class AuthGuard extends RouteGuard {
 
   @override
   FutureOr<String?> redirect(BuildContext context, GoRouterState state) {
-    if (!_auth.isLoggedIn) return '/login';
-    return null; // pass through
+    if (_auth.isLoggedIn) {
+      return state.matchedLocation == '/login' ? '/' : null;
+    }
+    return state.matchedLocation == '/login' ? null : '/login';
   }
 }
 
@@ -104,8 +109,10 @@ class TokenGuard extends RouteGuard {
   @override
   Future<String?> redirect(BuildContext context, GoRouterState state) async {
     final token = await _repo.getToken();
-    if (token == null || token.isExpired) return '/login';
-    return null;
+    if (token != null && !token.isExpired) {
+      return state.matchedLocation == '/login' ? '/' : null;
+    }
+    return state.matchedLocation == '/login' ? null : '/login';
   }
 }
 
@@ -116,7 +123,9 @@ class AdminGuard extends RouteGuard {
 
   @override
   FutureOr<String?> redirect(BuildContext context, GoRouterState state) {
-    if (_session.role != UserRole.admin) return '/unauthorized';
+    final path = state.matchedLocation;
+    if ((path == '/admin' || path.startsWith('/admin/')) &&
+        _session.role != UserRole.admin) return '/unauthorized';
     return null;
   }
 }
@@ -164,8 +173,7 @@ EnterpriseShell.buildRoute(
 )
 ```
 
-**Double-Tap to Root** is automatic — tapping the already-active tab pops the
-entire branch back to its root route, matching native iOS/Android behaviour.
+Tapping the already-active tab returns that branch to its root route.
 
 ---
 
@@ -193,6 +201,7 @@ RouteArchitect.create(
 
 `DebugRouteObserver` — included out of the box — prints all route events to
 the debug console during development.
+`onRouteError` is called when `fallbackLocation` handles a broken route.
 
 ---
 
@@ -202,6 +211,9 @@ the debug console during development.
 
 Use this when your state object cannot extend `ChangeNotifier` (Riverpod
 `Notifier`, Bloc, MobX, etc.):
+
+If your object already extends `ChangeNotifier`, pass it directly as
+`refreshListenable`.
 
 ```dart
 class AuthNotifier extends Notifier<AuthState> with ListenableNotifier {
@@ -238,7 +250,7 @@ final router = RouteArchitect.create(
 
 ---
 
-## Type-Safe Navigation Extensions
+## Typed Navigation Extensions
 
 ```dart
 // Screen A — push Screen B and await a typed return value

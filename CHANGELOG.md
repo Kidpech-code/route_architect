@@ -1,3 +1,12 @@
+## Unreleased
+
+- Fix the default 404 page's return button for apps whose initial route is not `/`.
+- Keep route errors off the default 404 page outside debug builds.
+- Print `DebugRouteObserver` events only in debug builds.
+- Make the quick start runnable, clarify guard and tab behavior, and document
+  how to run the example.
+- Run analysis and tests for the package and example on every push and PR.
+
 ## 1.0.1
 
 - Fix: trim `pubspec.yaml` description to satisfy pub.dev's 60-180 character requirement.
