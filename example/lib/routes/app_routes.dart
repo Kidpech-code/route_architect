@@ -4,7 +4,7 @@
 // No manual StatefulShellRoute.indexedStack or StatefulShellBranch required –
 // the package handles all of that from a plain list of ShellBranchItems.
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:route_architect/route_architect.dart';
 
 import '../auth/auth_notifier.dart';

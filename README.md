@@ -29,11 +29,18 @@ analytics observers, and state-management bridges.
 
 ## Requirements
 
-| Dependency | Version  |
-| ---------- | -------- |
-| Flutter    | ≥ 3.22.0 |
-| Dart SDK   | ≥ 3.4.0  |
-| go_router  | 14.x–17.x |
+| Dependency  | Version  |
+| ----------- | -------- |
+| Flutter     | ≥ 3.44.0 |
+| Dart SDK    | ≥ 3.12.0 |
+| go_router   | 18.x     |
+| material_ui | 1.x      |
+
+Version 2 uses the standalone Material UI types required by `go_router` 18.
+For older Flutter versions, stay on `route_architect` 1.0.2.
+When upgrading from 1.x, replace `package:flutter/material.dart` with
+`package:material_ui/material_ui.dart` in files using Material widgets or
+`EnterpriseShell` theme options, and add `material_ui` as a direct dependency.
 
 ---
 
@@ -41,7 +48,8 @@ analytics observers, and state-management bridges.
 
 ```yaml
 dependencies:
-  route_architect: ^1.0.2
+  route_architect: ^2.0.0
+  material_ui: ^1.0.0
 ```
 
 ```bash
@@ -49,14 +57,14 @@ flutter pub get
 ```
 
 > You do **not** need to add `go_router` separately — `route_architect`
-> re-exports the entire `go_router` API so you only need one import in your app files.
+> re-exports its API. Add `material_ui` when your app imports Material widgets.
 
 ---
 
 ## Quick Start
 
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:route_architect/route_architect.dart';
 
 void main() {

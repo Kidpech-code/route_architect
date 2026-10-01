@@ -8,6 +8,7 @@
 /// ## Quick Start
 ///
 /// ```dart
+/// import 'package:material_ui/material_ui.dart';
 /// import 'package:route_architect/route_architect.dart';
 ///
 /// final router = RouteArchitect.create(
