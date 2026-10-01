@@ -5,7 +5,7 @@
 - Print `DebugRouteObserver` events only in debug builds.
 - Make the quick start runnable, clarify guard and tab behavior, and document
   how to run the example.
-- Run analysis and tests for the package and example on every push and PR.
+- Run analysis and tests for the package and example on PRs and main pushes.
 
 ## 1.0.1
 
