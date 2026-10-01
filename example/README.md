@@ -1,6 +1,6 @@
 # route_architect example
 
-Run this app with Flutter 3.22 or newer:
+Run this app with Flutter 3.44 or newer:
 
 ```bash
 cd example

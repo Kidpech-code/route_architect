@@ -1,3 +1,10 @@
+## 2.0.0
+
+- Support `go_router` 18.x and its standalone Material UI types.
+- **Breaking:** require Flutter 3.44 / Dart 3.12; import Material widgets from
+  `package:material_ui/material_ui.dart` when using this package's UI APIs.
+- Keep `1.0.2` available for apps on older Flutter and `go_router` versions.
+
 ## 1.0.2
 
 - Fix the default 404 page's return button for apps whose initial route is not `/`.
