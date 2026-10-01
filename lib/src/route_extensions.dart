@@ -2,16 +2,17 @@ import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 
 // ---------------------------------------------------------------------------
-// RouteArchitectExtensions – Type-Safe Navigation Context Extensions
+// RouteArchitectExtensions – Navigation Context Extensions
 // ---------------------------------------------------------------------------
 
-/// Type-safe navigation extensions for `BuildContext`.
+/// Convenience navigation extensions for `BuildContext`.
 ///
 /// These extensions complement `go_router`'s built-in `context.go()` /
 /// `context.push()` methods with intent-revealing helpers specifically
 /// designed for the **"Push → Select → Pop Result"** enterprise pattern,
 /// where Screen A opens Screen B to collect typed data and receives it back
-/// without any `Object?` casting.
+/// without casting at the caller. Use the same result type on both screens;
+/// Dart cannot check that separate push and pop calls agree.
 ///
 /// ## The Enterprise "Push & Custom Pop" Pattern
 ///
@@ -35,30 +36,21 @@ import 'package:go_router/go_router.dart';
 /// )
 /// ```
 ///
-/// The compiler enforces that the type returned by `architectPop` is exactly
-/// `ShippingAddress`. No silent `as ShippingAddress` cast, no runtime crash.
+/// Match the push type to the value returned by the pop call.
 extension RouteArchitectExtensions on BuildContext {
   // ── Pop with Return Data ─────────────────────────────────────────────────
 
   /// Pops the current route and passes [result] back to the awaiting caller.
   ///
   /// This is the **return half** of the "Push & Custom Pop" pattern.
-  /// The type parameter [T] is enforced at compile time, eliminating the
-  /// accidental `Object?` casts that cause runtime crashes.
+  /// [T] checks the value passed to this call. The caller's push type must
+  /// match it; separate screens are not checked against each other.
   ///
   /// ### Usage – the picker / selector screen (Screen B)
   /// ```dart
   /// context.architectPop(ShippingAddress(city: 'Bangkok', street: '...'));
   /// ```
   ///
-  /// ### Contrast with the unsafe alternative
-  /// ```dart
-  /// // ❌ Unsafe – silent Object? cast at the caller site
-  /// context.pop(selectedAddress);
-  ///
-  /// // ✅ Safe – type encoded at the pop site; compiler validates
-  /// context.architectPop<ShippingAddress>(selectedAddress);
-  /// ```
   void architectPop<T extends Object?>(T result) => pop<T>(result);
 
   // ── Push and Await Return Data ───────────────────────────────────────────

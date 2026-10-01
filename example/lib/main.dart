@@ -9,7 +9,7 @@
 //  4. DebugRouteObserver              →  prints screen views/pops to console
 //  5. RouteArchitect.create           →  assembles the GoRouter declaratively
 //  6. InheritedAuthNotifier           →  zero-dependency DI for AuthNotifier
-//  7. appRoutes(auth)                 →  manually declared type-safe route tree
+//  7. appRoutes(auth)                 →  manually declared route tree
 // =============================================================================
 
 import 'package:flutter/material.dart';

@@ -48,18 +48,8 @@ import 'package:flutter/foundation.dart';
 /// }
 /// ```
 ///
-/// ### Example – Simple ChangeNotifier (Provider)
-/// ```dart
-/// class AuthNotifier extends ChangeNotifier with ListenableNotifier {
-///   bool _isLoggedIn = false;
-///   bool get isLoggedIn => _isLoggedIn;
-///
-///   void login() {
-///     _isLoggedIn = true;
-///     notifyRouteListeners(); // also calls notifyListeners() via the mixin
-///   }
-/// }
-/// ```
+/// If your state object already extends [ChangeNotifier], pass it directly
+/// as `refreshListenable`; do not mix in [ListenableNotifier].
 ///
 /// Then pass the notifier to [RouteArchitect.create]:
 /// ```dart

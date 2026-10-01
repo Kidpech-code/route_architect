@@ -29,8 +29,8 @@ import 'package:go_router/go_router.dart';
 ///
 ///   @override
 ///   FutureOr<String?> redirect(BuildContext context, GoRouterState state) {
-///     if (!config.hasCompletedOnboarding) return '/onboarding';
-///     return null; // pass through
+///     if (config.hasCompletedOnboarding) return null;
+///     return state.matchedLocation == '/onboarding' ? null : '/onboarding';
 ///   }
 /// }
 /// ```
@@ -44,8 +44,8 @@ import 'package:go_router/go_router.dart';
 ///   @override
 ///   Future<String?> redirect(BuildContext context, GoRouterState state) async {
 ///     final token = await _repo.getStoredToken();
-///     if (token == null || token.isExpired) return '/login';
-///     return null;
+///     if (token != null && !token.isExpired) return null;
+///     return state.matchedLocation == '/login' ? null : '/login';
 ///   }
 /// }
 /// ```
@@ -58,7 +58,9 @@ import 'package:go_router/go_router.dart';
 ///
 ///   @override
 ///   FutureOr<String?> redirect(BuildContext context, GoRouterState state) {
-///     if (session.role != UserRole.admin) return '/unauthorized';
+///     final path = state.matchedLocation;
+///     if ((path == '/admin' || path.startsWith('/admin/')) &&
+///         session.role != UserRole.admin) return '/unauthorized';
 ///     return null;
 ///   }
 /// }

@@ -1,16 +1,17 @@
-# route_architect_example
+# route_architect example
 
-Demonstrates how to use the route_architect plugin.
+Run this app with Flutter 3.22 or newer:
 
-## Getting Started
+```bash
+cd example
+flutter pub get
+flutter run
+```
 
-This project is a starting point for a Flutter application.
+The app starts at Login. Choose **Login as Member** or **Login as Admin** to
+enter the three-tab shell. On Home, try the address picker for a typed result,
+open a nested detail route, and test the admin guard. Tap the active tab to
+return to its root. Log out from Home or Profile to see the auth guard react.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Run the example checks with `flutter analyze` and `flutter test` from this
+directory.
