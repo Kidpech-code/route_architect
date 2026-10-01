@@ -1,6 +1,6 @@
 name: route_architect
 description: "Enterprise-grade Flutter routing on go_router. Async guard pipeline, deep-link safety, bottom-nav shell, analytics observers, and declarative API."
-version: 1.0.1
+version: 1.0.2
 homepage: https://github.com/Kidpech-code/route_architect
 repository: https://github.com/Kidpech-code/route_architect
 issue_tracker: https://github.com/Kidpech-code/route_architect/issues

@@ -1,4 +1,4 @@
-## Unreleased
+## 1.0.2
 
 - Fix the default 404 page's return button for apps whose initial route is not `/`.
 - Keep route errors off the default 404 page outside debug builds.
